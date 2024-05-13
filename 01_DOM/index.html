@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyTitle</title>
+  </head>
+  <body>
+    <div></div>
+    <button id="clickButton">Click Me!</button>
+    <script>
+      const divEle = document.querySelector("div");
+      const clickButton = document.getElementById("clickButton");
+
+      clickButton.addEventListener("click", () => {
+        const h1Ele = document.createElement("h1");
+        h1Ele.addEventListener("click", () => h1Ele.remove());
+        h1Ele.innerHTML = "Clicked!";
+        divEle.appendChild(h1Ele);
+      });
+    </script>
+  </body>
+</html>

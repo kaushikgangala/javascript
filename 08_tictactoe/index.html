@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TIC TAC TOE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="X-score">X:0</div>
+    <div class="main-container">
+      <h2>TIC TAC TOE</h2>
+      <h2 id="result"></h2>
+      <div id="container">
+        <!-- <div class="row"> -->
+        <div onclick="handleClick(this)" class="col" id="0"></div>
+        <div onclick="handleClick(this)" class="col" id="1"></div>
+        <div onclick="handleClick(this)" class="col" id="2"></div>
+        <!-- </div> -->
+        <!-- <div class="row"> -->
+        <div onclick="handleClick(this)" class="col" id="3"></div>
+        <div onclick="handleClick(this)" class="col" id="4"></div>
+        <div onclick="handleClick(this)" class="col" id="5"></div>
+        <!-- </div> -->
+        <!-- <div class="row"> -->
+        <div onclick="handleClick(this)" class="col" id="6"></div>
+        <div onclick="handleClick(this)" class="col" id="7"></div>
+        <div onclick="handleClick(this)" class="col" id="8"></div>
+        <!-- </div> -->
+      </div>
+      <button id="reset-btn">RESET</button>
+    </div>
+    <div id="O-score">O:0</div>
+    <script src="index.js"></script>
+  </body>
+</html>

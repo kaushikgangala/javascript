@@ -1,0 +1,42 @@
+body {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+h1 {
+  font-size: 72px;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+.row-flex {
+  display: flex;
+  column-gap: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 200px 200px;
+  grid-template-rows: 200px 200px;
+  gap: 10px;
+}
+
+.color-div {
+  height: 200px;
+  width: 200px;
+  margin: auto;
+  padding: auto;
+  border-radius: 10px;
+}
+
+.color-div:hover {
+  cursor: pointer;
+  scale: 1.1;
+  transition: 0.5s;
+}

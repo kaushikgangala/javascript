@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+input {
+  display: block;
+  width: 240px;
+  margin: 0;
+  padding: 10px;
+}
+
+.col {
+  cursor: pointer;
+}
+
+.col-3 {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.col-6 {
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

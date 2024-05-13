@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>timer</title>
+  </head>
+  <body>
+    <span id="time"></span>
+    <form id="timer-form" action="">
+      <input id="hours" type="number" min="0" placeholder="hours" required />
+      <input
+        id="minutes"
+        type="number"
+        min="0"
+        placeholder="minutes"
+        required
+      />
+      <input
+        id="seconds"
+        type="number"
+        min="0"
+        placeholder="seconds"
+        required
+      />
+      <button id="submit-button">start</button>
+    </form>
+    <button id="stop-timer">stop</button>
+    <button id="reset-timer">reset</button>
+    <script src="script.js"></script>
+  </body>
+</html>

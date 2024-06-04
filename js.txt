@@ -1,0 +1,508 @@
+###################		JAVASCRIPT NOTES		########################
+
+variables:
+	var - global scope, mutable
+	let - local(block) scope, mutable
+	const - local(block) scope, immutable
+
+
+data types:
+	primitive(returns copy): number, string, boolean, null(object type), undefined, symbol, bigint
+	non-primitive(returns reference): arrays(object type), functions(object type), objects
+
+
+conditional statements:
+	if - else if - else
+	switch(variable) case values
+
+
+logical operators:
+	and, or, not
+
+
+loops:
+	for, while, do while
+	higher order loops(arrays) - forEach(no return), map(returns copy)
+
+
+
+functions:
+	argument: value passed while calling
+	parameter: variable written in function definition
+	regular functions: function fname(){}
+	arrow functions: fname()=>{}, name not required, no arguments keyword, no hoisting, this keyword refers to the window object.
+	##### if function(regular or arrow) assigned to a variable, then no hoisting is done
+
+
+
+higher order functions: a function having function as argument and can return function
+
+callbacks: function passed as parameter so that it can be called by the base function later
+
+
+arrays: heterogeneous [1, 'Kaushik', true, 3.14]
+arrays higher order functions: 
+	.forEach((val)=>{}), doesn't return any array
+	.map((val)=>{}), returns new array
+	.filter((val)=>{}), returns new array
+	.slice(startIndex, endIndex), endIndex excluded, returns new array
+	.splice(startIndex, range), range from startIndex including startIndex, returns new array
+	.find((val)=>val>18), returns the value of the first element satisfying the condition
+	.flat(depth) -> flattens to the given depth and returns new array, can use Infinity for all the depths
+	.flatMap((val)=>{}) -> similar to flat but depth only 1, returns new array
+
+
+DOM: document object model, html element tree of multiple elements at multiple levels
+	> html
+		> head
+			> title
+		> body
+			> nav
+
+
+selectors:
+	- document.querySelector(), 'tag', '#id', '.class'
+	- document.querySelectorAll(), returns array of elements
+	- document.selectElementById(), returns one element
+	- document.selectElementsByClassName(), returns array of elements
+	- document.selectElementsByTagName(), returns array of elements
+
+
+
+dom manipulation:
+	- document.createElement(), 'h1', 'div', ...
+	- anyElement.append(e1, e2, e3), to append multiple elements into it
+	- anyElement.appendChild(e1), to append single element into it
+	- anyElement.addEventListener('event', ()=>{}), events: click, drag, ...
+
+
+promises: any asynchronous code returns a promise object which gets executed at any indefinite time in the future. it can result in completion or failure.
+	states: pending, fulfilled, rejected
+	values: undefined, result, error
+
+
+API calling: fetch(), should be in an async function with try catch or handled by .then(), .catch(), .finally() to handle errors
+
+
+
+local storage:
+	- localStorage object lets you to add or remove data using setItem(key, value) and getItem(key)
+
+
+location: 
+	-navigator.geolocation.getCurrentPosition(userDefinedSuccessCallback, userDefinedFailureCallback)
+	- upon success, gives and calls userDefinedSuccessCallback(position) with position
+
+
+setTimeout(()=>{}, milliseconds): runs the callback function only once after the timeout interval
+
+setInterval(()=>{}, milliseconds): runs the callback forever with the gap of interval
+
+clearInterval(intervalName): to stop any running intervals
+
+
+closures:
+	- composed of a outer function and inner function(s)
+	- the inner function(s) is/are dependent on the argument(s) of the outer function
+	- the outer function returns the inner function
+	
+	- helps you to create a template that gives you a function, for a range of input, such as counterIncrementBy1() and counterIncrementBy10()
+
+
+
+currying:
+	- nesting of functions such that the final (most nested) function will only be called when all the arguments are passed.
+	- for example, const sendEmail = (to) => (subject) => (body) => console.log() will only run the console.log() when you call with all the parameters such as sendEmal('kaushik@gmail.com')('You order is arriving')('Make sure you are ready to pay the delivery partner at the time of delivery')
+
+
+composition:
+	- creating a function that returns a function which composes a chain of atomic functions
+	- acting as a template to avoid writing newer functions which are based on existing functions
+
+const add = (...args) => {
+  return parseInt(args[0][0]) + parseInt(args[0][1]);
+};
+
+const square = (a) => {
+  return a * a;
+};
+
+const cube = (a) => {
+  return a ** 3;
+};
+
+const composeAll =
+  (...fns) =>
+  (...values) =>
+    fns.reduce((a, b) => b(a), values);
+
+const amp = composeAll(add, square, cube);
+
+console.log(amp(1, 1));
+
+
+
+
+bluetooth control via javascript:
+	- go to about://flags via url bar
+	- search #experimental-web-platform-features flag and enable it
+
+
+
+IIFE: Immediately Invoked Function Expression
+	- (()=>{})()
+	- helps to not pollute the global namespace even with var
+
+
+
+Iterator: 
+	- has next() function and done keyword
+	- helps to iterate over iterable data structures like arrays and objects
+
+Generator functions:
+	- helps to write custom iterators
+	- syntax: function*
+	- uses yield keyword to pause current execution and return a value to the caller function
+	- gives next() function and done state by default
+
+Yield: keyword used only in generator functions to pause and resume execution
+
+
+
+Promisification:
+	- process of converting a callback-based asynchronous functions into functions that returns promises.
+
+	example: 
+	const fs = require('fs');
+
+	function readFileCallback(path, callback) {
+	fs.readFile(path, 'utf8', (err, data) => {
+		if (err) {
+		callback(err);
+		} else {
+		callback(null, data);
+		}
+	});
+	}
+
+	function readFilePromise(path) {
+	return new Promise((resolve, reject) => {
+		readFileCallback(path, (err, data) => {
+		if (err) {
+			reject(err);
+		} else {
+			resolve(data);
+		}
+		});
+	});
+	}
+
+	readFilePromise('example.txt')
+	.then(data => {
+		console.log(data); // File content
+	})
+	.catch(err => {
+		console.error(err); // Handle error
+	});
+
+	in promisification, you replace the callback function with a function that uses reject and resolve for the error
+
+
+Type conversion confusion:
+
+// Implicit Type Conversion (Coercion):
+	console.log("11" + 2, typeof ("11" + 2)); // 112, string
+	console.log(1 + "12", typeof (1 + "12")); // 112, string
+	console.log("1" - 2); // -1, number
+	console.log(1 - "2"); // -1, number
+
+// Truthy and Falsy Values:
+	// 0 -> Falsy, 1 -> Truthy
+
+	// Type Conversion Functions: parseInt(), parseFloat(), String()
+	console.log(parseInt("10")); // 10, number
+	console.log(parseInt("10px")); // 10, number
+	console.log(parseInt("abc")); // NaN
+
+// Object to Primitive Conversion:
+	const obj = {
+	// should have either valueOf() or toString() function
+	// for object to primitive conversion
+	toString() {
+		return "42";
+	},
+	};
+
+	console.log(obj + 1);
+
+
+
+************************ 
+Objects:
+	// Objects in JS can be singleton or multiton
+	// to create a singleton object, you use Object.create() function
+
+	const mySym = Symbol("sym1");
+
+	// multiton object
+	const myObj = {
+	userName: "Kaushik",
+	"Full Name": "Kaushik Gangala", // must be accessed using [] and not .
+	userEmail: "Kaushik@google.com",
+	[mySym]: "Symbol value",
+	};
+
+	myObj.userName;
+	// myObj[userName] -> error, keys are converted into strings
+	myObj["userName"];
+
+	// console.log(myObj.mySym); O/P:  undefined
+	console.log(myObj[mySym]); // O/P: Symbol value
+
+	// adding properties
+	myObj.greeting = function () {
+	console.log(`Hello, ${this.userName}`);
+	};
+
+	// calling greeting function
+	myObj.greeting();
+
+	// to make object immutable
+	Object.freeze(myObj);
+
+	const obj1 = { a: 1, b: 2 };
+	const obj2 = { b: 3, c: 4 };
+
+	// the last object with conflicting key will override
+	const obj3 = { ...obj1, ...obj2 };
+	const obj4 = { ...obj2, ...obj1 };
+	// const obj3 = Object.assign({}, obj1, obj2), does same thing
+	// const obj3 = Object.assign(obj1, obj2), modifies obj1
+
+	console.log(obj3); // {a: 1, b: 3, c: 4}
+	console.log(obj4); // {b: 2, c: 4, a: 1}
+
+	console.log(Object.keys(obj1)); // returns array of keys
+	console.log(Object.values(obj1)); // returns array of values
+	console.log(Object.entries(obj1)); // returns 2d array of [key, value]
+
+	console.log(obj1.hasOwnProperty("a")); // checks if given object has given key
+
+
+
+
+********************************
+Arrays
+	arr1 = [....]
+	arr2 = arr1 // shallow copy, same memory reference
+	arr3 = JSON.parse(JSON.stringify(arr1)) // deep copy, different memory reference
+
+
+
+
+
+************
+Execution and call stack:
+	Execution contexts:
+		Global Execution Context
+		Function Execution Context -> new variable environment + execution thread
+		Eval Execution Context
+
+	every execution contexts have two execution phases:
+		Memory Creation Phase -> all variables set to undefined and all functions are set to it's definition
+		Execution Phase -> all variables are set to their values and all functions get their own funtion execution context, these function if returns, returns to the parent execution context
+
+
+
+*******************
+Control flow:
+	Falsy values: false, 0, -0, 0n (BigInt), "", null, undefined, NaN
+	Truthy valus: "0", 'false', " ", [], {}, function(){}
+
+
+
+*****
+Nullish Coalescing Operator ??: works only on null and undefined
+let val = (null/undefined) ?? (then...)
+ex: let res = fetch(...) ?? {userName: '', email: ''}
+
+
+Ternary Operator: condition ? (if true) : (if false)
+
+
+
+
+*******
+for(const val of arr){} => used for arrays, doesn't work for objects
+for(const key in obj){} => used for objects, gives only keys of objects and indices for arrays
+
+
+
+**********************************
+OOP:
+using functions:
+	function User(userName, email){
+		this.userName = userName
+		this.email = email
+		this.greet = function(){
+			console.log(`Hello, ${this.userName})
+		}
+	}
+
+	const user1 = new User("Kaushik", "abc@gmail.com")
+	const user2 = User("Karthik", "k@yahoo.com") # not using 'new' keyword overrides previously instantiated object and returns its reference
+	so now both user1 and user2 refer to User("Karthik", "k@yahoo.com")
+	user1.constructor -> returns reference to itself/the object
+
+
+this refers to the object that is the current instance of the class, though there might be various instances
+
+everything in JavaScript like String, Array, Symbol, Function etc is an object or inherits object.
+
+all the class methods reside in prototype and you can add more methods/functions to it
+ex: Object.prototype.newfn = ()=>{}
+    Object.newfn = ()=>{} // same as above, can avoid prototype keyword
+
+
+you can inherit one class/object/function in another using __proto__ keyword(outdated) and using Object.setPrototypeOf(base, parent)
+
+
+
+
+*******************************
+.call():
+	ex: someFn.call(this, ...) -> passes the current execution context to the called function when 'this' is passed
+
+
+
+
+*******************************
+class ParentClass{
+	constructor(a){
+		this.a = a
+	}
+}
+
+class Myclass extends ParentClass{ ----------> inheritence
+	constructor(a, b, c){
+		super(a) -> sends it to ParentClass, no need of .call(this, a)
+		this.b = b
+		this.c = c
+	}
+}
+
+
+
+***************************
+.bind()
+ex1:
+const person = {
+  name: 'Alice',
+  greet: function() {
+    console.log('Hello, my name is ' + this.name);
+  }
+};
+
+const greet = person.greet;
+greet(); // Output: Hello, my name is undefined
+
+const boundGreet = person.greet.bind(person);
+boundGreet(); // Output: Hello, my name is Alice
+
+
+ex2:
+const button = document.createElement('button');
+button.textContent = 'Click me';
+document.body.appendChild(button);
+
+const user = {
+  name: 'Alice',
+  handleClick: function() {  ---------> arrow function won't work refers Window not user
+    console.log('Hello, ' + this.name);
+  }
+};
+
+button.addEventListener('click', user.handleClick.bind(user));
+// When the button is clicked, the output will be: "Hello, Alice"
+
+
+
+
+*********************************
+can you change Math.PI value?
+	- No, in the descriptor of Math.PI, it is set to {value: 3.141592653589793, writable: false, enumerable: false, configurable: false}, it doesn't allow to change the descriptor nor the value
+
+
+
+
+*************************************
+getters, setters, and stack overflow due to getters and setters
+
+# not correct, infinite recursion
+const obj = {
+  _a: 10,
+  get a() {
+    return this.a; // Incorrect: This causes infinite recursion
+  },
+  set a(value) {
+    this.a = value; // Incorrect: This causes infinite recursion
+  }
+};
+
+# correct:
+const obj = {
+  _a: 10, // Internal property to store the value
+  get a() {
+    return this._a; // Correct: Accessing the internal property
+  },
+  set a(value) {
+    this._a = value; // Correct: Setting the internal property
+  }
+};
+
+
+
+
+
+
+****************************
+lexical scope: inner function able to access outer function/block scope.
+pure function: function which is only dependent on the arguments passed to it.
+impure function: function that is dependent on scope beyond its block.
+closure: function inside another function where the inner function is dependent on the scope of outer function, you can return the inner function
+
+
+closures can be used to create counters, callback functions for event handling, when the inner function is returned.
+
+
+
+
+
+
+**************************
+// ADVANCED ARRAYS
+Arrays: continuous, holey
+	both can have 3 subtypes:
+		- SMI (small integer)
+		- double (only integers + floats / only floats) (can have NaN and Infinity)
+		- packed element (array containing element which is neither smi nor double)
+		
+
+expensive hole lookup:
+ex:
+const arr1 = [1, 2, 3, , , 6]
+console.log(arr[3]) -------------------> very expensive
+// because js engine does the following things for bounded(index in range) hole checks
+// 1. bound check, checks if index in bound of array's indices/length
+// 2. hasOwnProperty(arr1, 3), if no value, found at index 3, then checks for property 3
+// 3. hasOwnProperty(arr1.prototype, 3), checks in its prototype for the property 3
+// 4. hasOwnProperty(Object.prototype, 3), checks in Object's prototype for the property 3
+
+performance:
+packed_smi_elements > packed_double_elements > packed_elements
+holey_smi_elements > holey_double_elements > holey_elements
+// conversion only left to right is possible, not vice versa
+
+packed_smi_elements array can become packed_double_elements array on pushing a double value, but the opposite doesn't happen when you delete the same double value from the array.
+
+the same applies for packed_double_elements array to packed_elements upon string values and for holey arrays as well.
